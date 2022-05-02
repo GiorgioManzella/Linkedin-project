@@ -13,7 +13,7 @@ cloudinary.config({
 });
 
 const cloudinaryUload = multer({
-  storageg: new CloudinaryStorage({
+  storage: new CloudinaryStorage({
     cloudinary,
     params: { folder: "Linkedin-Profiles_images" },
   }),
@@ -37,10 +37,11 @@ experienceRouter.get("/:id", async (req, res, next) => {
     next(error);
   }
 });
-experienceRouter.post("/", async (req, res, next) => {
+experienceRouter.post("/", cloudinaryUload, async (req, res, next) => {
   try {
     const newExperience = await new experienceSchema(req.body);
     const { _id } = await newExperience.save();
+
     res.status(201).send(newExperience);
   } catch (error) {
     next(error);
@@ -66,5 +67,3 @@ experienceRouter.delete("/:id", async (req, res, next) => {
     next(error);
   }
 });
-
-export default experienceRouter;
