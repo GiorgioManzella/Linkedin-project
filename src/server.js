@@ -3,18 +3,20 @@ import mongoose from "mongoose";
 import cors from "cors";
 import listEndpoints from "express-list-endpoints";
 import experienceRouter from "../src/experience/experience.js";
+import postRouter from "./post/post.js";
 
 const server = express();
 const port = process.env.PORT || 3003;
 
 // middlewares ----------------------------------------------------------------
-
+const whitelist = process.env.CLOUDINARY_URL;
 server.use(cors());
 server.use(express.json());
 
 //endpoints ----------------------------------------------------------------
 
 server.use("/experience", experienceRouter);
+server.use("/post", postRouter);
 
 // error handlers ----------------------------------------------------------------
 
