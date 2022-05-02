@@ -67,13 +67,3 @@ experienceRouter.delete("/:id", async (req, res, next) => {
     next(error);
   }
 });
-
-experienceRouter.post("/test", cloudinaryUload, async (req, res, next) => {
-  try {
-    console.log("uploaded");
-    res.status(200);
-  } catch (error) {
-    console.log("not uploaded");
-  }
-});
-export default experienceRouter;
