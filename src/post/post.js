@@ -71,4 +71,6 @@ postRouter.post("/:postId", async (req, res, next) => {
   }
 });
 // =======================================
+// postRouter.get(":PostId/")
+// =======================================
 export default postRouter;
