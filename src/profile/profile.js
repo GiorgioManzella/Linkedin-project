@@ -2,7 +2,7 @@ import express from "express";
 import profile from "./profileModal.js";
 import createError from "http-errors";
 import generateUserPdfReadableStream from "../libs/pdfTools.js";
-import pipeline from "stream"
+import {pipeline} from "stream"
 
 const profileRouter = express.Router();
 
@@ -88,6 +88,8 @@ profileRouter.get("/:userId/cv", async (req, res, next) => {
       const user = await profile.findById(req.params.userId);
       res.setHeader("Content-Disposition", "attachment; filename=yourCV.pdf")
       const source =  generateUserPdfReadableStream(user)
+
+      console.log(source);
       const destination = res
 
 
