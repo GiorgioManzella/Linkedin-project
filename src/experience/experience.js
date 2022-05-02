@@ -68,3 +68,12 @@ experienceRouter.delete("/:id", async (req, res, next) => {
   }
 });
 export default experienceRouter;
+
+// ------------------------------------------ test
+experienceRouter.get("id/download", function (req, res, next) {
+  json2csv({ data: myCars, fields: fields }, function (err, csv) {
+    res.setHeader("Content-disposition", "attachment; filename=data.csv");
+    res.set("Content-Type", "text/csv");
+    res.status(200).send(csv);
+  });
+});
