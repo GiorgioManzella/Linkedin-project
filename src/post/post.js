@@ -6,14 +6,21 @@ import { CloudinaryStorage } from "multer-storage-cloudinary";
 import multer from "multer";
 // =============================
 const postRouter = express.Router();
-const imageUploader = multer({
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_NAME,
+  api_key: process.env.CLOUDINARY_KEY,
+  api_secret: process.env.CLOUDINARY_SECRET,
+});
+
+const cloudinaryUpload = multer({
   storage: new CloudinaryStorage({
     cloudinary,
-    params: { folder: "test-linkedin" },
+    params: { folder: "Linkedin-Profiles_images" },
   }),
-}).single("avatar");
+}).single("image");
+
 // ==============================
-postRouter.post("/", async (req, res, next) => {
+postRouter.post("/", cloudinaryUpload, async (req, res, next) => {
   try {
     const post = await postModel(req.body);
     const { _id } = await post.save();
@@ -81,9 +88,5 @@ postRouter.post("/:postId", async (req, res, next) => {
 });
 // =======================================
 
-postRouter.post("/avatar", imageUploader, async (req, res, next) => {
-  console.log("file uploaded", req.file);
-  res.send();
-});
 // =======================================
 export default postRouter;
