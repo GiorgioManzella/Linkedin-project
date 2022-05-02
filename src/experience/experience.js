@@ -37,10 +37,11 @@ experienceRouter.get("/:id", async (req, res, next) => {
     next(error);
   }
 });
-experienceRouter.post("/", async (req, res, next) => {
+experienceRouter.post("/", cloudinaryUload, async (req, res, next) => {
   try {
     const newExperience = await new experienceSchema(req.body);
     const { _id } = await newExperience.save();
+
     res.status(201).send(newExperience);
   } catch (error) {
     next(error);
@@ -67,4 +68,12 @@ experienceRouter.delete("/:id", async (req, res, next) => {
   }
 });
 
+experienceRouter.post("/test", cloudinaryUload, async (req, res, next) => {
+  try {
+    console.log("uploaded");
+    res.status(200);
+  } catch (error) {
+    console.log("not uploaded");
+  }
+});
 export default experienceRouter;
