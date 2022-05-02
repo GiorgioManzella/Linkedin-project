@@ -13,8 +13,7 @@ server.use(express.json());
 
 //endpoints ----------------------------------------------------------------
 
-// server.use("/product", productRouter);
-// server.use("/reviews", reviewRouter);
+//server.use("/experience", experienceRouter);
 
 // error handlers ----------------------------------------------------------------
 
