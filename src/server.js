@@ -4,6 +4,7 @@ import cors from "cors";
 import listEndpoints from "express-list-endpoints";
 import experienceRouter from "./experience/experience.js";
 import postRouter from "./post/post.js";
+import profileRouter from "./profile/profile.js";
 
 const server = express();
 const port = process.env.PORT || 3003;
@@ -17,6 +18,7 @@ server.use(express.json());
 
 server.use("/experience", experienceRouter);
 server.use("/post", postRouter);
+server.use("/profile", profileRouter);
 
 // error handlers ----------------------------------------------------------------
 
