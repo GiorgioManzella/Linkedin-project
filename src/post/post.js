@@ -1,8 +1,17 @@
 import express from "express";
 import createError from "http-errors";
 import postModel from "./postModel.js";
+import { v2 as cloudinary } from "cloudinary";
+import { CloudinaryStorage } from "multer-storage-cloudinary";
+import multer from "multer";
 // =============================
 const postRouter = express.Router();
+const imageUploader = multer({
+  storage: new CloudinaryStorage({
+    cloudinary,
+    params: { folder: "text-linkedin" },
+  }),
+}).single("image");
 // ==============================
 postRouter.post("/", async (req, res, next) => {
   try {
@@ -71,6 +80,10 @@ postRouter.post("/:postId", async (req, res, next) => {
   }
 });
 // =======================================
-// postRouter.get(":PostId/")
+
+postRouter.post("/image", imageUploader, (req, res, next) => {
+  console.log(req.file);
+  res.send();
+});
 // =======================================
 export default postRouter;
