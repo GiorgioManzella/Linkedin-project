@@ -9,17 +9,7 @@ const port = process.env.PORT || 3003;
 
 // middlewares ----------------------------------------------------------------
 const whitelist = process.env.CLOUDINARY_URL;
-server.use(
-  cors({
-    origin: (origin, next) => {
-      if (!origin || whitelist.indexOf(origin) !== -1) {
-        next(null, true);
-      } else {
-        next(createError(400, "CORS ERROR!"));
-      }
-    },
-  })
-);
+server.use(cors());
 server.use(express.json());
 
 //endpoints ----------------------------------------------------------------

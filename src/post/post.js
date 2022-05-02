@@ -9,9 +9,9 @@ const postRouter = express.Router();
 const imageUploader = multer({
   storage: new CloudinaryStorage({
     cloudinary,
-    params: { folder: "text-linkedin" },
+    params: { folder: "test-linkedin" },
   }),
-}).single("image");
+}).single("avatar");
 // ==============================
 postRouter.post("/", async (req, res, next) => {
   try {
@@ -81,8 +81,8 @@ postRouter.post("/:postId", async (req, res, next) => {
 });
 // =======================================
 
-postRouter.post("/image", imageUploader, (req, res, next) => {
-  console.log(req.file);
+postRouter.post("/avatar", imageUploader, async (req, res, next) => {
+  console.log("file uploaded", req.file);
   res.send();
 });
 // =======================================
