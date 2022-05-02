@@ -2,7 +2,7 @@ import express from "express";
 import mongoose from "mongoose";
 import cors from "cors";
 import listEndpoints from "express-list-endpoints";
-import experienceRouter from "../src/experience/experience.js";
+import experienceRouter from "./experience/experience.js";
 import postRouter from "./post/post.js";
 
 const server = express();
