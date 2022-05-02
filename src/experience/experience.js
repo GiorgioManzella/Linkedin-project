@@ -13,7 +13,7 @@ cloudinary.config({
 });
 
 const cloudinaryUload = multer({
-  storageg: new CloudinaryStorage({
+  storage: new CloudinaryStorage({
     cloudinary,
     params: { folder: "Linkedin-Profiles_images" },
   }),
