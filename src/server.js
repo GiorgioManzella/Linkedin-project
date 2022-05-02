@@ -2,6 +2,7 @@ import express from "express";
 import mongoose from "mongoose";
 import cors from "cors";
 import listEndpoints from "express-list-endpoints";
+import experienceRouter from "../src/experience/experience.js";
 
 const server = express();
 const port = process.env.PORT || 3003;
@@ -13,15 +14,13 @@ server.use(express.json());
 
 //endpoints ----------------------------------------------------------------
 
-//server.use("/experience", experienceRouter);
+server.use("/experience", experienceRouter);
 
 // error handlers ----------------------------------------------------------------
 
 //connection to db-----------------------------------------------------------
 
-mongoose.connect(
-  "mongodb+srv://test:test@cluster0.teeo4.mongodb.net/Linkedin?retryWrites=true&w=majority"
-);
+mongoose.connect(process.env.MONGO_CONNECTION);
 mongoose.connection.on("connected", () => {
   console.log("successfully connected"),
     server.listen(port, () => {
