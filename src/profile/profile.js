@@ -44,7 +44,7 @@ profileRouter.post("/", async (req, res, next) => {
     console.log(post);
     const newUser = new profile(post); // here it happens the validation of req.body, if it is not ok Mongoose will throw an error (if it is ok it is NOT saved in db yet)
 
-    const { _id, name } = await newUser.save(); // --> {_id: 123io12j3oi21j, firstName: "aoidjoasijdo"}
+    const { _id} = await newUser.save(); // --> {_id: 123io12j3oi21j, firstName: "aoidjoasijdo"}
     res.status(201).send({ _id });
   } catch (error) {
     next(createError(400, "profile must be unique"));

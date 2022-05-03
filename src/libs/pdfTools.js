@@ -14,7 +14,7 @@ const generateUserPdfReadableStream = (user) => {
   const docDefinition = {
     content: [
       {
-        text: "Eyo",
+        text: `${user.name}`,
         styles: "header",
       },
     ],

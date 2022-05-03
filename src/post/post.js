@@ -1,8 +1,12 @@
 import express from "express";
 import createError from "http-errors";
 import postModel from "./postModel.js";
-import { v2 as cloudinary } from "cloudinary";
-import { CloudinaryStorage } from "multer-storage-cloudinary";
+/* import { v2 as cloudinary } from "cloudinary";
+import { CloudinaryStorage } from "multer-storage-cloudinary"; */
+import pkg from "cloudinary";
+const { v2:cloudinary} = pkg
+import pkg2 from "multer-storage-cloudinary";
+const { CloudinaryStorage } = pkg2
 import multer from "multer";
 // =============================
 const postRouter = express.Router();
@@ -33,7 +37,7 @@ postRouter.post("/", cloudinaryUpload, async (req, res, next) => {
 // =======================================
 postRouter.get("/", async (req, res, next) => {
   try {
-    const getPost = await postModel.find();
+    const getPost = await postModel.find().populate("profile")
     res.send(getPost);
   } catch (error) {
     console.log(error);
@@ -43,7 +47,9 @@ postRouter.get("/", async (req, res, next) => {
 // =======================================
 postRouter.get("/:postId", async (req, res, next) => {
   try {
-    const getPost = await postModel.findById(req.params.postId);
+    const getPost = await postModel.findById(req.params.postId).populate(
+      "profile"
+    );
     res.send(getPost);
   } catch (error) {
     console.log(error);

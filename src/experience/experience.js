@@ -1,8 +1,10 @@
 import express from "express";
 import multer from "multer";
 import experienceSchema from "./experienceModal.js";
-import { v2 as cloudinary } from "cloudinary";
-import { CloudinaryStorage } from "multer-storage-cloudinary";
+import pkg from "cloudinary";
+const { v2:cloudinary } = pkg
+import pkg2 from "multer-storage-cloudinary";
+const { CloudinaryStorage } = pkg2
 
 const experienceRouter = express.Router();
 
