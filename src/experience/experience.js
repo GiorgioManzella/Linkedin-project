@@ -2,9 +2,11 @@ import express from "express";
 import multer from "multer";
 import experienceSchema from "./experienceModal.js";
 import pkg from "cloudinary";
-const { v2:cloudinary } = pkg
+const { v2: cloudinary } = pkg;
 import pkg2 from "multer-storage-cloudinary";
-const { CloudinaryStorage } = pkg2
+const { CloudinaryStorage } = pkg2;
+import { Readable, pipeline} from "stream"
+import json2csv from "json2csv"
 
 const experienceRouter = express.Router();
 
@@ -33,7 +35,9 @@ experienceRouter.get("/", async (req, res, next) => {
 });
 experienceRouter.get("/:id", async (req, res, next) => {
   try {
-    const experience = await experienceSchema.findById(req.params.id);
+    const experience = await experienceSchema
+      .findById(req.params.id)
+      .populate("profile");
     res.status(200).send(experience);
   } catch (error) {
     next(error);
@@ -69,13 +73,33 @@ experienceRouter.delete("/:id", async (req, res, next) => {
     next(error);
   }
 });
+
+experienceRouter.get("/:id/download", async (req, res, next) => {
+  try {
+    res.setHeader("Content-Disposition", "attachment; filename=books.csv");
+    let experiences = await experienceSchema.findById(req.params.id);
+    console.log(experiences);
+    const stream = Readable.from(JSON.stringify(experiences));
+    const transform = new json2csv.Transform({
+      fields: ["role", "company",],
+    });
+    const destination = res;
+
+    pipeline(stream, transform, destination, (err) => {
+      if (err) console.log(err);
+    });
+  } catch (error) {
+    next(error);
+  }
+});
 export default experienceRouter;
 
 // ------------------------------------------ test
-experienceRouter.get("id/download", function (req, res, next) {
+/* experienceRouter.get("id/download", function (req, res, next) {
   json2csv({ data: myCars, fields: fields }, function (err, csv) {
     res.setHeader("Content-disposition", "attachment; filename=data.csv");
     res.set("Content-Type", "text/csv");
     res.status(200).send(csv);
   });
 });
+ */

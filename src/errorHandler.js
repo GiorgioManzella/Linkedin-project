@@ -28,5 +28,5 @@ export const notFoundError = (err, request, response, next) => {
 export const errorHandler = (err, request, response, next) => {
   console.log(err);
 
-  response.send({ message: "This is a Server error" });
+  response.status(500).send({ message: "This is a Server error" });
 };

@@ -5,6 +5,7 @@ import listEndpoints from "express-list-endpoints";
 import experienceRouter from "./experience/experience.js";
 import postRouter from "./post/post.js";
 import profileRouter from "./profile/profile.js";
+import {badRequestError,unauthorizedError,notFoundError, errorHandler} from "./errorHandler.js"
 
 const server = express();
 const port = process.env.PORT || 3003;
@@ -21,7 +22,10 @@ server.use("/post", postRouter);
 server.use("/profile", profileRouter);
 
 // error handlers ----------------------------------------------------------------
-
+server.use(badRequestError);
+server.use(unauthorizedError);
+server.use(notFoundError);
+server.use(errorHandler);
 //connection to db-----------------------------------------------------------
 
 mongoose.connect(process.env.MONGO_CONNECTION);

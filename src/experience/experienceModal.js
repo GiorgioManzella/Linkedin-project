@@ -10,8 +10,8 @@ const experienceSchema = new Schema(
     endDate: { type: "date" },
     description: { type: "string" },
     area: { type: "string" },
-    profile: { type: Schema.Types.ObjectId, ref: "Profiles" },
     image: { type: "string" },
+    profile: { type: Schema.Types.ObjectId, ref: "Profile" },
   },
   {
     timestamps: true,
