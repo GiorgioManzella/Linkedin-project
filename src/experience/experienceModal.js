@@ -6,8 +6,8 @@ const experienceSchema = new Schema(
   {
     role: { type: "string" },
     company: { type: "string" },
-    startDate: { type: "date" },
-    endDate: { type: "date" },
+    startDate: { type: "string" },
+    endDate: { type: "string" },
     description: { type: "string" },
     area: { type: "string" },
     image: { type: "string" },

@@ -5,8 +5,9 @@ import pkg from "cloudinary";
 const { v2: cloudinary } = pkg;
 import pkg2 from "multer-storage-cloudinary";
 const { CloudinaryStorage } = pkg2;
-import { Readable, pipeline} from "stream"
-import json2csv from "json2csv"
+import { Readable, pipeline } from "stream";
+import json2csv from "json2csv";
+import profile from "../profile/profileModal.js";
 
 const experienceRouter = express.Router();
 
@@ -33,7 +34,7 @@ experienceRouter.get("/", async (req, res, next) => {
     next(error);
   }
 });
-experienceRouter.get("/:id", async (req, res, next) => {
+experienceRouter.get("/:userId/:id", async (req, res, next) => {
   try {
     const experience = await experienceSchema
       .findById(req.params.id)
@@ -81,7 +82,7 @@ experienceRouter.get("/:id/download", async (req, res, next) => {
     console.log(experiences);
     const stream = Readable.from(JSON.stringify(experiences));
     const transform = new json2csv.Transform({
-      fields: ["role", "company",],
+      fields: ["role", "company"],
     });
     const destination = res;
 
