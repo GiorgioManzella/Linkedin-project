@@ -44,7 +44,7 @@ experienceRouter.get("/:userId/:id", async (req, res, next) => {
     next(error);
   }
 });
-experienceRouter.post("/", cloudinaryUload, async (req, res, next) => {
+experienceRouter.post("/:userId", cloudinaryUload, async (req, res, next) => {
   try {
     const newExperience = await new experienceSchema(req.body);
     const { _id } = await newExperience.save();
