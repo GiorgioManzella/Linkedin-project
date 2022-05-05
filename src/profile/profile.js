@@ -9,6 +9,7 @@ const { v2: cloudinary } = pkg;
 import pkg2 from "multer-storage-cloudinary";
 const { CloudinaryStorage } = pkg2;
 import multer from "multer";
+import json2csv from "json2csv";
 
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_NAME,
@@ -213,40 +214,41 @@ profileRouter.post(
 
   async (req, res, next) => {
     try {
-      const experience = await experienceSchema.findByIdAndUpdate(
-        req.params.experienceId,
-        { ...experience.toObject(), image: req.file.path }
+      const experience = await experienceSchema.findById(
+        req.params.experienceId
       );
+      experience.image = req.file.path;
 
-      // const modifiedExp = { ...experience.toObject(), image: req.file.path };
+      experience.save();
 
-      const newExperience = await new experienceSchema(modifiedExp).save();
-
-      res.status(201).send(modifiedExp);
+      res.status(201).send(experience);
     } catch (error) {
       next(error);
     }
   }
 );
 
-// experienceRouter.get("/:id/download", async (req, res, next) => {
-//   try {
-//     res.setHeader("Content-Disposition", "attachment; filename=books.csv");
-//     let experiences = await experienceSchema.findById(req.params.id);
-//     console.log(experiences);
-//     const stream = Readable.from(JSON.stringify(experiences));
-//     const transform = new json2csv.Transform({
-//       fields: ["role", "company"],
-//     });
-//     const destination = res;
+profileRouter.get("/:userName/experiences/csv", async (req, res, next) => {
+  try {
+    res.setHeader("Content-Disposition", "attachment; filename=books.csv");
 
-//     pipeline(stream, transform, destination, (err) => {
-//       if (err) console.log(err);
-//     });
-//   } catch (error) {
-//     next(error);
-//   }
-// });
+    const user = await profile.findOne({ username: req.params.userName });
+    const { _id } = user;
+    const experience = await experienceSchema.find({ profile: _id });
+
+    const stream = Readable.from(JSON.stringify(experience));
+    const transform = new json2csv.Transform({
+      fields: ["role", "company"],
+    });
+    const destination = res;
+
+    pipeline(stream, transform, destination, (err) => {
+      if (err) console.log(err);
+    });
+  } catch (error) {
+    next(error);
+  }
+});
 
 //*----------------------------------------------------------------------------
 
